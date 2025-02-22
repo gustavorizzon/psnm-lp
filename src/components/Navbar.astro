@@ -50,20 +50,22 @@ const navLinks = [
 
     <!-- Mobile Menu Button -->
     <button
-      class="md:hidden p-2 text-powershell-text/70 hover:text-powershell-text"
+      class="md:hidden p-2 text-powershell-text/70 hover:text-powershell-text group cursor-pointer transition-colors border rounded-md border-powershell-text/70 hover:bg-powershell-text/10 hover:border-powershell-command hover:[box-shadow:0_0_15px_rgba(239,181,113,0.3)]"
       onclick="toggleMenu()"
       aria-label="Toggle menu"
       data-toggle-mobile-menu
+      data-mobile-menu-state="closed"
     >
-      <X class="size-6" [data-toggle-close-icon] />
-      <Menu class="size-6" [data-toggle-menu-icon] />
+      <X class="size-4 group-data-[mobile-menu-state=closed]:hidden" />
+      <Menu class="size-4 group-data-[mobile-menu-state=open]:hidden" />
     </button>
   </div>
 
   <!-- Mobile Menu -->
   <div
-    class="md:hidden border-t border-powershell-text/10 bg-powershell-bg/95 backdrop-blur-md"
+    class="data-[state=closed]:hidden md:hidden border-t border-powershell-text/10 bg-powershell-bg/95 backdrop-blur-md"
     data-mobile-menu
+    data-state="closed"
   >
     <div class="container py-4 px-4 flex flex-col gap-4">
       {
@@ -98,7 +100,7 @@ const navLinks = [
     const scrollPosition = window.scrollY + 80; // Offset for the navbar
     let activeSection: Element;
     for (let s = 0; s < sections.length; s++) {
-      const section = sections[s]
+      const section = sections[s];
       const sectionTop = (section as HTMLElement).offsetTop;
       const sectionHeight = section.clientHeight;
 
@@ -106,28 +108,36 @@ const navLinks = [
         scrollPosition >= sectionTop &&
         scrollPosition < sectionTop + sectionHeight
       ) {
-        activeSection = section
-        break
+        activeSection = section;
+        break;
       }
     }
 
-    navLinks.forEach(nl => {
-      if (nl.getAttribute('href')?.slice(1) === activeSection.getAttribute('id')) {
-        nl.classList.add('active-link')
+    navLinks.forEach((nl) => {
+      if (
+        nl.getAttribute("href")?.slice(1) === activeSection.getAttribute("id")
+      ) {
+        nl.classList.add("active-link");
       } else {
-        nl.classList.remove('active-link')
+        nl.classList.remove("active-link");
       }
-    })
-  };
+    });
+  }
 
-  window.addEventListener('scroll', handleScroll)
+  window.addEventListener("scroll", handleScroll);
   handleScroll();
 
   // Mobile menu toggle
-  document
-    .querySelector("[data-toggle-mobile-menu]")
-    ?.addEventListener("click", () => {
-      const mobileMenu = document.querySelector("[data-mobile-menu]");
-      mobileMenu?.classList.toggle("hidden");
-    });
+  const mobileMenuTrigger = document.querySelector("[data-toggle-mobile-menu]");
+
+  mobileMenuTrigger?.addEventListener("click", () => {
+    const mobileMenu = document.querySelector("[data-mobile-menu]");
+    if (mobileMenu?.getAttribute("data-state") === "open") {
+      mobileMenu?.setAttribute("data-state", "closed");
+      mobileMenuTrigger?.setAttribute("data-mobile-menu-state", "closed");
+    } else {
+      mobileMenu?.setAttribute("data-state", "open");
+      mobileMenuTrigger?.setAttribute("data-mobile-menu-state", "open");
+    }
+  });
 </script>
