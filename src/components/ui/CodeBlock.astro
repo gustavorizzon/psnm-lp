@@ -24,7 +24,7 @@ const { code, language, class: classNames } = Astro.props as CodeBlockProps;
 
 <script>
   document.querySelectorAll('[data-copy-code-trigger]').forEach((el) => {
-    el.addEventListener('click', (event) => {
+    el.addEventListener('click', () => {
       const codeBlock = el.parentElement?.children.item(1)?.children.item(0)
       navigator.clipboard.writeText(codeBlock?.textContent ?? '')
     })
