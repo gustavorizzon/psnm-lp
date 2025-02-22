@@ -1,0 +1,5 @@
+.active-link {
+  color: var(--color-powershell-command);
+  border-bottom-color: var(--color-powershell-command);
+  text-shadow: 0 0 10px var(--color-powershell-command);
+}

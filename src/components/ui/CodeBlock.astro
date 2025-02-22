@@ -1,0 +1,32 @@
+---
+import { Prism } from "@astrojs/prism";
+import Copy from "../icons/Copy.astro";
+export type CodeBlockProps = {
+  class?: string;
+  language: string;
+  code: string;
+};
+const { code, language, class: classNames } = Astro.props as CodeBlockProps;
+---
+
+<div class="relative">
+  <button
+    type="button"
+    class="p-2 cursor-pointer border rounded-md border-powershell-text/20 absolute right-7 top-3 hover:bg-powershell-text/10 hover:border-powershell-command hover:[box-shadow:0_0_15px_rgba(239,181,113,0.3)]"
+    data-copy-code-trigger
+  >
+    <!-- <CheckCircle2 class="size-4 text-green-400" /> -->
+    <Copy class="size-4" />
+    <span class="sr-only">Copy code</span>
+  </button>
+  <Prism lang={language} code={code} class={classNames} />
+</div>
+
+<script>
+  document.querySelectorAll('[data-copy-code-trigger]').forEach((el) => {
+    el.addEventListener('click', (event) => {
+      const codeBlock = el.parentElement?.children.item(1)?.children.item(0)
+      navigator.clipboard.writeText(codeBlock?.textContent ?? '')
+    })
+  })
+</script>

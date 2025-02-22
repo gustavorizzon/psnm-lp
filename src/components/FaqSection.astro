@@ -1,0 +1,152 @@
+---
+import ChevronDown from "./icons/ChevronDown.astro";
+
+const faqs = [
+  {
+    question: "What is PowerShell Simple Node Manager?",
+    answer:
+      "It is a lightweight and permission-less tool designed to simplify the management of Node.js versions.",
+  },
+  {
+    question: "What functionality does psnm provide?",
+    answer:
+      "To explore the full range of functionality offered by psnm, refer to the commands section on the landing page or use the `psnm help` command to list all available options.",
+  },
+  {
+    question: "Do I need administrator privileges to use psnm?",
+    answer:
+      "No, psnm is designed to work without administrator privileges, making it ideal for environments with security restrictions.",
+  },
+  {
+    question: "How do I install psnm?",
+    answer:
+      "Follow the installation guide on the landing page, which includes downloading the psnm.ps1 file, placing it in the appropriate directory, and configuring execution policies if required.",
+  },
+  {
+    question: "How do I update psnm?",
+    answer:
+      "To get the latest version of psnm, please check the landing page for updated code.",
+  },
+  {
+    question: "Do we have a version of psnm for other operating systems?",
+    answer:
+      "No, our objective is only for PowerShell on Windows systems with security restrictions.",
+  },
+  {
+    question: "Where are the Node.js versions installed by psnm stored?",
+    answer:
+      "Node.js versions are stored at C:\\Users\\<username>\\AppData\\Local\\psnm\\nodejs.",
+  },
+  {
+    question: "Is there a way to update Node.js versions installed via psnm?",
+    answer:
+      "PSNM does not directly update existing versions. To install a newer version, run the `psnm install` command with the desired version number. To manage older versions, use `psnm ls` to list installed versions and `psnm remove` to uninstall them.",
+  },
+  {
+    question: "Can I use psnm with scripts or CI/CD pipelines?",
+    answer:
+      "Yes, psnm can be integrated into scripts and CI/CD pipelines, but it is only compatible with Windows-based pipelines due to its reliance on PowerShell.",
+  },
+  {
+    question: "Where are Node.js versions downloaded from?",
+    answer:
+      "Node.js versions are downloaded from the official Node.js mirror, ensuring that only authentic and up-to-date releases are available for installation.",
+  },
+  {
+    question: "Does psnm support LTS and current Node.js releases?",
+    answer:
+      "Yes, psnm provides access to every version of Node.js released under the official Node.js mirror, including both LTS (Long-Term Support) and current releases.",
+  },
+  {
+    question: "How do I report issues or request new features for psnm?",
+    answer:
+      "You can report issues or submit feature requests through the project's repository.",
+  },
+];
+---
+
+<section id="faq" class="w-full py-12 md:py-24 lg:py-32 bg-muted">
+  <div class="container px-4 md:px-6">
+    <div class="mx-auto max-w-3xl space-y-8">
+      <div class="space-y-4 text-center">
+        <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl [text-shadow:0_0_15px_rgba(238,237,240,0.3)]">
+          Frequently Asked Questions
+        </h2>
+        <p
+          class="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+        >
+          Have a question? Check out our most commonly asked questions below. If
+          you can&apos;t find what you&apos;re looking for, please leave a
+          message in our{" "}
+          <a
+            href="https://github.com/gustavorizzon/psnm/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          .
+        </p>
+      </div>
+      <div data-accordion>
+        {
+          faqs.map((faq) => (
+            <div
+              data-accordion-item
+              data-state="closed"
+              class="border-b border-b-powershell-text/20 group"
+            >
+              <button
+                type="button"
+                data-accordion-trigger
+                class="flex items-center justify-between gap-4 py-4 w-full cursor-pointer"
+              >
+                <h2 class="font-semibold text-base text-left">
+                  {faq.question}
+                </h2>
+                <ChevronDown class="size-6 transition-transform group-data-[state=open]:rotate-180" />
+              </button>
+              <div
+                data-accordion-content
+                class="overflow-y-hidden group-data-[state=closed]:h-0 group-data-[state=open]:animate-accordion-down group-data-[state=closed]:animate-accordion-up"
+              >
+                <p class="pb-4 pt-0 text-muted-foreground/80">{faq.answer}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const accordtionItems = document.querySelectorAll("[data-accordion-item]");
+
+  function toggleAccordionItem(trigger: Element) {
+    const item = trigger.parentElement;
+    accordtionItems.forEach((el) => {
+      const content = el.querySelector("[data-accordion-content]");
+      const contentHeight = content?.scrollHeight + "px";
+      (content as HTMLElement).style.setProperty(
+        "--item-content-height",
+        contentHeight
+      );
+
+      if (el !== item) {
+        el.setAttribute("data-state", "closed");
+      }
+    });
+
+    item?.setAttribute(
+      "data-state",
+      item?.getAttribute("data-state") === "open" ? "closed" : "open"
+    );
+  }
+
+  document
+    .querySelectorAll("[data-accordion-trigger]")
+    .forEach((el) =>
+      el.addEventListener("click", () => toggleAccordionItem(el))
+    );
+</script>

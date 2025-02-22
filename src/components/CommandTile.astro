@@ -1,0 +1,17 @@
+---
+export interface CommandTileProps {
+  label: string;
+  fullCommand: string;
+  description: string;
+}
+
+const { label, description, fullCommand } = Astro.props as CommandTileProps
+---
+
+<div class="rounded-lg border border-powershell-text/10 bg-card p-6 hover:[box-shadow:0_0_20px_rgba(239,181,113,0.15)] transition-shadow">
+  <h3 class="font-semibold text-powershell-command">{label}</h3>
+  <p class="text-sm text-powershell-text/70">{description}</p>
+  <code class="mt-2 inline-block rounded-sm w-full bg-powershell-bg px-2 py-1 text-sm font-mono text-powershell-command">
+    {fullCommand}
+  </code>
+</div>

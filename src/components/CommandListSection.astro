@@ -1,0 +1,50 @@
+---
+import CommandTile from './CommandTile.astro'
+import type { CommandTileProps } from './CommandTile.astro'
+
+const commands: CommandTileProps[] = [
+  {
+    label: "install",
+    fullCommand: "psnm install <version>",
+    description: "Installs the specified version of Node.js on your system.",
+  },
+  {
+    label: "remove",
+    fullCommand: "psnm remove <version>",
+    description: "Removes the specified version of Node.js from your system.",
+  },
+  {
+    label: "use",
+    fullCommand: "psnm use <version>",
+    description: "Switches to the specified version of Node.js.",
+  },
+  {
+    label: "ls-remote",
+    fullCommand: "psnm ls-remote",
+    description: "Lists all available versions of Node.js.",
+  },
+  {
+    label: "ls",
+    fullCommand: "psnm ls",
+    description: "Lists all installed versions of Node.js.",
+  },
+];
+---
+
+<section id="commands" class="py-24 lg:py-32 bg-muted">
+  <div class="container px-4 md:px-6">
+    <div class="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-powershell-text [text-shadow:0_0_15px_rgba(238,237,240,0.3)]">
+        Commands
+      </h2>
+      <p class="max-w-[700px] text-powershell-text/80 md:text-xl">
+        Simple and powerful commands to help you get things done faster.
+      </p>
+    </div>
+    <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
+      {commands.map((cmd) => (
+        <CommandTile key={cmd.label} {...cmd} />
+      ))}
+    </div>
+  </div>
+</section>

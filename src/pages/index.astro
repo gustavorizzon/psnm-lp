@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+import '../styles/custom.css';
+import '../styles/nord-prism-theme.css'
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import HeroSection from '../components/HeroSection.astro';
+import CommandListSection from '../components/CommandListSection.astro';
+import InstallationSection from '../components/InstallationSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Footer from '../components/Footer.astro';
+
+---
+
+<Layout>
+	<div class="min-h-screen bg-background text-foreground">
+		<Navbar />
+		<main class="pt-16">
+			<HeroSection />
+			<CommandListSection />
+			<InstallationSection />
+			<FaqSection />
+		</main>
+		<Footer />
+	</div>
+</Layout>

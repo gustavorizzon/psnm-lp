@@ -1,0 +1,133 @@
+---
+import Terminal from "./icons/Terminal.astro";
+import Github from "./icons/Github.astro";
+import X from "./icons/X.astro";
+import Menu from "./icons/Menu.astro";
+
+const navLinks = [
+  { href: "#home", label: "Home" },
+  { href: "#commands", label: "Commands" },
+  { href: "#installation", label: "Installation" },
+  { href: "#faq", label: "FAQ" },
+];
+---
+
+<nav
+  class="fixed top-0 z-50 w-full border-b border-powershell-text/10 bg-powershell-bg/80 backdrop-blur-md"
+>
+  <div class="container flex h-16 items-center justify-between px-4">
+    <div class="flex items-center gap-2">
+      <Terminal class="size-6 text-powershell-text animate-pulse" />
+      <span
+        class="font-bold text-powershell-text text-lg [text-shadow:0_0_10px_#EFB571] inline-block"
+        >psnm</span
+      >
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex md:items-center md:gap-6">
+      {
+        navLinks.map((link) => (
+          <a
+            data-nav-link
+            href={link.href}
+            class="relative px-4 py-2 text-sm transition-colors border-b text-powershell-text/70 hover:text-powershell-text border-transparent hover:border-b-powershell-text"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="https://github.com/gustavorizzon/psnm"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm border border-powershell-text/20 rounded hover:bg-powershell-text/10 hover:border-powershell-command hover:[box-shadow:0_0_15px_rgba(239,181,113,0.3)]"
+      >
+        <Github class="size-4" />
+        <span class="hidden lg:inline-block">View on GitHub</span>
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="md:hidden p-2 text-powershell-text/70 hover:text-powershell-text"
+      onclick="toggleMenu()"
+      aria-label="Toggle menu"
+      data-toggle-mobile-menu
+    >
+      <X class="size-6" [data-toggle-close-icon] />
+      <Menu class="size-6" [data-toggle-menu-icon] />
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    class="md:hidden border-t border-powershell-text/10 bg-powershell-bg/95 backdrop-blur-md"
+    data-mobile-menu
+  >
+    <div class="container py-4 px-4 flex flex-col gap-4">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="px-4 py-2 text-sm transition-colors text-powershell-text/70"
+            data-nav-link
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="https://github.com/gustavorizzon/psnm"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm border border-powershell-text/20 rounded hover:bg-powershell-text/10"
+      >
+        <Github class="size-4" />
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const navLinks = document.querySelectorAll("[data-nav-link]");
+  const sections = document.querySelectorAll("section[id]");
+
+  function handleScroll() {
+    const scrollPosition = window.scrollY + 80; // Offset for the navbar
+    let activeSection: Element;
+    for (let s = 0; s < sections.length; s++) {
+      const section = sections[s]
+      const sectionTop = (section as HTMLElement).offsetTop;
+      const sectionHeight = section.clientHeight;
+
+      if (
+        scrollPosition >= sectionTop &&
+        scrollPosition < sectionTop + sectionHeight
+      ) {
+        activeSection = section
+        break
+      }
+    }
+
+    navLinks.forEach(nl => {
+      if (nl.getAttribute('href')?.slice(1) === activeSection.getAttribute('id')) {
+        nl.classList.add('active-link')
+      } else {
+        nl.classList.remove('active-link')
+      }
+    })
+  };
+
+  window.addEventListener('scroll', handleScroll)
+  handleScroll();
+
+  // Mobile menu toggle
+  document
+    .querySelector("[data-toggle-mobile-menu]")
+    ?.addEventListener("click", () => {
+      const mobileMenu = document.querySelector("[data-mobile-menu]");
+      mobileMenu?.classList.toggle("hidden");
+    });
+</script>
