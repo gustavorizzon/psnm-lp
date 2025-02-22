@@ -1,8 +1,6 @@
 ---
 import CodeBlock from "./ui/CodeBlock.astro";
 
-// import { CodeBlock } from "./code-block";
-
 async function fetchScriptContent() {
   const scriptContent = await fetch(
     "https://raw.githubusercontent.com/gustavorizzon/psnm/refs/heads/main/psnm.ps1"
@@ -12,7 +10,8 @@ async function fetchScriptContent() {
 }
 
 const SCRIPT_CREATE_ALIAS = `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\nif (-not (Test-Path $profile)) { New-Item $profile -Force }\nAdd-Content -Path $profile -Value "Set-Alias psnm $HOME\\.psnm\\psnm.ps1"`;
-
+const SCRIPT_CREATE_FILE = `New-Item $HOME\\.psnm\\psnm.ps1 -Force`;
+const CMD_LIST_AVAILABLE_VERSIONS = `psnm ls-remote`;
 const scriptContent = await fetchScriptContent();
 ---
 
@@ -20,7 +19,9 @@ const scriptContent = await fetchScriptContent();
   <div class="container px-4 md:px-6">
     <div class="mx-auto max-w-[58rem] space-y-12">
       <div class="space-y-4 text-center">
-        <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-powershell-text [text-shadow:0_0_15px_rgba(238,237,240,0.3)]">
+        <h2
+          class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-powershell-text [text-shadow:0_0_15px_rgba(238,237,240,0.3)]"
+        >
           Installation Guide
         </h2>
         <p class="mx-auto max-w-[700px] text-powershell-text/80 md:text-xl">
@@ -37,45 +38,36 @@ const scriptContent = await fetchScriptContent();
             <code class="rounded-sm bg-muted px-1 text-powershell-command">
               psnm.ps1
             </code>{" "}
-            in your desired location, or simply execute the command below to
-            create it automatically:
+            in your desired location, or simply execute the command below to create
+            it automatically:
           </p>
-          <CodeBlock
-            code="New-Item $HOME\.psnm\psnm.ps1 -Force"
-            language="powershell"
-          />
+          <CodeBlock code={SCRIPT_CREATE_FILE} language="powershell" />
         </div>
         <div class="space-y-2">
           <h3 class="font-semibold text-powershell-text">
             2. Open, copy, paste & save
           </h3>
           <p class="text-powershell-text/70">
-            Open the new file you just created, copy and paste the script
-            into the file. Remember to save.
+            Open the new file you just created, copy and paste the script into
+            the file. Remember to save.
           </p>
-          <CodeBlock
-            code={scriptContent}
-            language="powershell"
-            class="h-96"
-          />
+          <CodeBlock code={scriptContent} language="powershell" class="h-96" />
         </div>
         <div class="space-y-2">
-          <h3 class="font-semibold text-powershell-text">
-            3. Create an alias
-          </h3>
+          <h3 class="font-semibold text-powershell-text">3. Create an alias</h3>
           <p class="text-powershell-text/70">
-            Add an entry to your PowerShell profile to create an alias for
-            the PowerShell Simple Node Manager:
+            Add an entry to your PowerShell profile to create an alias for the
+            PowerShell Simple Node Manager:
           </p>
           <CodeBlock code={SCRIPT_CREATE_ALIAS} language="powershell" />
         </div>
         <div class="space-y-2">
           <h3 class="font-semibold text-powershell-text">4. Test</h3>
           <p class="text-powershell-text/70">
-            Restart your PowerShell session and test the psnm command to
-            ensure it works correctly.
+            Restart your PowerShell session and test the psnm command to ensure
+            it works correctly.
           </p>
-          <CodeBlock code={`psnm ls-remote`} language="powershell" />
+          <CodeBlock code={CMD_LIST_AVAILABLE_VERSIONS} language="powershell" />
         </div>
       </div>
     </div>
