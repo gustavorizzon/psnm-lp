@@ -20,7 +20,7 @@ const faqs = [
   {
     question: "How do I install psnm?",
     answer:
-      "Follow the installation guide on the landing page, which includes downloading the psnm.ps1 file, placing it in the appropriate directory, and configuring execution policies if required.",
+      "Follow the installation guide on the landing page, which includes downloading the psnm.psm1 file, placing it in the appropriate directory, and configuring execution policies if required.",
   },
   {
     question: "How do I update psnm?",
@@ -36,6 +36,11 @@ const faqs = [
     question: "Where are the Node.js versions installed by psnm stored?",
     answer:
       "Node.js versions are stored at C:\\Users\\<username>\\AppData\\Local\\psnm\\nodejs.",
+  },
+  {
+    question: "Where does psnm store its configuration file?",
+    answer:
+      "PSNM stores its configuration file at C:\\Users\\<username>\\AppData\\Local\\psnm\\config.json. This file contains settings like the default Node.js version and other user preferences.",
   },
   {
     question: "Is there a way to update Node.js versions installed via psnm?",

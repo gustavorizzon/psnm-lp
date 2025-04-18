@@ -3,15 +3,17 @@ import CodeBlock from "./ui/CodeBlock.astro";
 
 async function fetchScriptContent() {
   const scriptContent = await fetch(
-    "https://raw.githubusercontent.com/gustavorizzon/psnm/refs/heads/main/psnm.ps1"
+    "https://raw.githubusercontent.com/gustavorizzon/psnm/refs/heads/main/psnm.psm1"
   ).then((response) => response.text());
 
   return scriptContent;
 }
 
-const SCRIPT_CREATE_ALIAS = `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\nif (-not (Test-Path $profile)) { New-Item $profile -Force }\nAdd-Content -Path $profile -Value "Set-Alias psnm $HOME\\.psnm\\psnm.ps1"`;
-const SCRIPT_CREATE_FILE = `New-Item $HOME\\.psnm\\psnm.ps1 -Force`;
-const CMD_LIST_AVAILABLE_VERSIONS = `psnm ls-remote`;
+const SCRIPT_IMPORT_MODULE = `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser\n`
+  + `if (-not (Test-Path $profile)) { New-Item $profile -Force }\n`
+  + `Add-Content -Path $profile -Value "Import-Module $HOME\\.psnm\\psnm.psm1"`;
+const SCRIPT_CREATE_FILE = "New-Item $HOME\\.psnm\\psnm.psm1 -Force";
+const CMD_LIST_AVAILABLE_VERSIONS = "psnm ls-remote";
 const scriptContent = await fetchScriptContent();
 ---
 
@@ -31,12 +33,12 @@ const scriptContent = await fetchScriptContent();
       <div class="space-y-8">
         <div class="space-y-2">
           <h3 class="font-semibold text-powershell-text">
-            1. Create the script file
+            1. Create the PowerShell Module file
           </h3>
           <p class="text-powershell-text/70">
             Create a new file named{" "}
             <code class="rounded-sm bg-muted px-1 text-powershell-command">
-              psnm.ps1
+              psnm.psm1
             </code>{" "}
             in your desired location, or simply execute the command below to create
             it automatically:
@@ -54,12 +56,11 @@ const scriptContent = await fetchScriptContent();
           <CodeBlock code={scriptContent} language="powershell" class="h-96" />
         </div>
         <div class="space-y-2">
-          <h3 class="font-semibold text-powershell-text">3. Create an alias</h3>
+          <h3 class="font-semibold text-powershell-text">3. Import the module</h3>
           <p class="text-powershell-text/70">
-            Add an entry to your PowerShell profile to create an alias for the
-            PowerShell Simple Node Manager:
+            Add an entry to your PowerShell profile to import the PowerShell Simple Node Manager module:
           </p>
-          <CodeBlock code={SCRIPT_CREATE_ALIAS} language="powershell" />
+          <CodeBlock code={SCRIPT_IMPORT_MODULE} language="powershell" />
         </div>
         <div class="space-y-2">
           <h3 class="font-semibold text-powershell-text">4. Test</h3>
