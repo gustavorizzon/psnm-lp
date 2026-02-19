@@ -43,6 +43,11 @@ const faqs = [
       "PSNM stores its configuration file at C:\\Users\\<username>\\AppData\\Local\\psnm\\config.json. This file contains settings like the default Node.js version and other user preferences.",
   },
   {
+    question: "Does PSNM permanently modify my PATH?",
+    answer:
+      "No. PSNM modifies the PATH only for the current PowerShell session when you run the use command.",
+  },
+  {
     question: "Is there a way to update Node.js versions installed via psnm?",
     answer:
       "PSNM does not directly update existing versions. To install a newer version, run the `psnm install` command with the desired version number. To manage older versions, use `psnm ls` to list installed versions and `psnm remove` to uninstall them.",
@@ -50,17 +55,32 @@ const faqs = [
   {
     question: "Can I use psnm with scripts or CI/CD pipelines?",
     answer:
-      "Yes, psnm can be integrated into scripts and CI/CD pipelines, but it is only compatible with Windows-based pipelines due to its reliance on PowerShell.",
+      "PSNM can technically be used in Windows-based scripts or CI/CD pipelines since it relies on PowerShell. However, it was not designed or optimized for CI/CD environments. Dedicated tools or preconfigured runtime environments are generally more appropriate for CI/CD workflows. psnm is primarily intended for local development in restricted Windows environments.",
   },
   {
     question: "Where are Node.js versions downloaded from?",
     answer:
-      "Node.js versions are downloaded from the official Node.js mirror, ensuring that only authentic and up-to-date releases are available for installation.",
+      "Node.js versions are downloaded from the official Node.js mirror (no repackaged or third-party artifacts), ensuring that only authentic and up-to-date releases are available for installation.",
+  },
+  {
+    question: "Are Node.js versions downloaded by psnm safe?",
+    answer:
+      "Yes. PSNM downloads Node.js binaries directly from nodejs.org, without modification or repackaging.",
   },
   {
     question: "Does psnm support LTS and current Node.js releases?",
     answer:
-      "Yes, psnm provides access to every version of Node.js released under the official Node.js mirror, including both LTS (Long-Term Support) and current releases.",
+      "Yes, PSNM provides access to every version of Node.js released under the official Node.js mirror, including both LTS (Long-Term Support) and current releases.",
+  },
+  {
+    question: "How is psnm different from nvm or fnm?",
+    answer:
+      "PSNM is designed specifically for restricted Windows environments where traditional version managers like nvm or fnm may not be available or approved. Unlike those tools, psnm is written entirely in PowerShell, requires no external dependencies, and uses only official Node.js binaries. It focuses on simplicity and compatibility with corporate Windows systems rather than feature completeness.",
+  },
+  {
+    question: "Is psnm intended to replace nvm or other version managers?",
+    answer:
+      "No. PSNM is designed as a minimal solution for Windows environments where traditional version managers cannot be used. It focuses on reliability and compatibility within those constraints.",
   },
   {
     question: "How do I report issues or request new features for psnm?",
@@ -74,7 +94,9 @@ const faqs = [
   <div class="container px-4 md:px-6">
     <div class="mx-auto max-w-3xl space-y-8">
       <div class="space-y-4 text-center">
-        <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl [text-shadow:0_0_15px_rgba(238,237,240,0.3)]">
+        <h2
+          class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl [text-shadow:0_0_15px_rgba(238,237,240,0.3)]"
+        >
           Frequently Asked Questions
         </h2>
         <p
@@ -135,7 +157,7 @@ const faqs = [
       const contentHeight = content?.scrollHeight + "px";
       (content as HTMLElement).style.setProperty(
         "--item-content-height",
-        contentHeight
+        contentHeight,
       );
 
       if (el !== item) {
@@ -145,13 +167,13 @@ const faqs = [
 
     item?.setAttribute(
       "data-state",
-      item?.getAttribute("data-state") === "open" ? "closed" : "open"
+      item?.getAttribute("data-state") === "open" ? "closed" : "open",
     );
   }
 
   document
     .querySelectorAll("[data-accordion-trigger]")
     .forEach((el) =>
-      el.addEventListener("click", () => toggleAccordionItem(el))
+      el.addEventListener("click", () => toggleAccordionItem(el)),
     );
 </script>

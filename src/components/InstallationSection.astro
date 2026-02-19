@@ -37,9 +37,7 @@ const scriptContent = await fetchScriptContent();
           </h3>
           <p class="text-powershell-text/70">
             Create a new file named{" "}
-            <code class="rounded-sm bg-muted px-1 text-powershell-command">
-              psnm.psm1
-            </code>{" "}
+            <code class="rounded-sm bg-muted px-1 text-powershell-command">psnm.psm1</code>{" "}
             in your desired location, or simply execute the command below to create
             it automatically:
           </p>
@@ -58,7 +56,7 @@ const scriptContent = await fetchScriptContent();
         <div class="space-y-2">
           <h3 class="font-semibold text-powershell-text">3. Import the module</h3>
           <p class="text-powershell-text/70">
-            Add an entry to your PowerShell profile to import the PowerShell Simple Node Manager module:
+            Add an entry to your PowerShell profile to import the PowerShell Simple Node Manager module by running the 3 commands below:
           </p>
           <CodeBlock code={SCRIPT_IMPORT_MODULE} language="powershell" />
         </div>
